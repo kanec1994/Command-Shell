@@ -1,0 +1,98 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/wait.h>
+
+//Char array 1 element larger to store NULL termination in the case of 20 processes
+int currProcs[20];
+char* procStatus[21];
+
+void addJob(pid_t pid){
+	int i=0;
+	while(currProcs[i] != 0){
+		i++;
+	}
+	currProcs[i] = pid;
+	procStatus[i] = "R";
+	procStatus[i+1] = NULL;
+}
+
+void printJobs(){
+	int i=0;
+	printf("List of background processes:\n");
+	while(currProcs[i] != 0){
+		printf("Command %d with PID %d Status:", i+1, currProcs[i]);
+		if(strcmp(procStatus[i], "R") == 0){
+			printf("RUNNING\n");
+		}
+		else{
+			printf("FINISHED\n");
+		}
+		i++;
+	}
+	i=0;
+	int j;
+	int k;
+	while(currProcs[i] !=0){
+		k = 0;
+		if(strcmp(procStatus[i], "F") == 0){
+			j = i+1;
+			while(currProcs[j] != 0){
+				currProcs[j-1] = currProcs[j];
+				procStatus[j-1] = procStatus[j];
+				j++;
+			}
+			currProcs[j-1] = 0;
+			k = 1;
+		}
+		if(k != 1){
+			i++;
+		}
+	}
+}
+
+int findJob(int pid){
+	int i=0;
+	while(currProcs[i] != 0){
+		if(currProcs[i] == pid){
+			return pid;
+		}
+		i++;
+	}
+	return 0;
+}
+
+void completeJob(int pid){
+	int i=0;
+	while(currProcs[i] != 0){
+		if(currProcs[i] == pid){
+			procStatus[i] = "F";
+		}
+		i++;
+	}
+}
+
+void functCall(char* args[], int length){
+	if(strcmp(args[0], "\n") == 0){
+		exit(0);
+	}
+        else if(length == 1){
+		if(execlp(args[0], args[0], (char*) NULL) == -1){
+			fprintf(stderr, "Exec call failed!\n");
+		}
+		exit(2);
+	}
+	else if(length == 2 && strcmp(args[1], "&") == 0){
+		if(execlp(args[0], args[0], (char*) NULL) == -1){
+			fprintf(stderr, "Exec call failed!\n");
+		}
+		exit(2);
+	}
+	else{
+		if(execvp(args[0], args) == -1){
+			fprintf(stderr, "Exec call failed\n");
+		}
+		exit(2);
+	}
+}

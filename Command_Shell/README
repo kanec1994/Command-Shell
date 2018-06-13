@@ -1,0 +1,120 @@
+CS350 Operating Systems
+Fall 2016
+Assignment 1 README FILE
+
+Due Date - 9/16/16
+Submission Date - 9/16/16
+Author: Casey Kane
+Email: ckane2@binghamton.edu
+
+******************************************************
+*		       Purpose			     *
+******************************************************
+
+Create a simple shell program called cs350sh which has
+the following functionalities:
+1) Execute any program/command
+2) Execute commands with multiple arguments
+3) Execute commands in either foreground or background
+4) Run multiple background processes concurrently
+5) List all currently running background processes
+6) Bring a background process to the foreground
+
+******************************************************
+*		  Percent Complete		     *
+******************************************************
+
+100%
+
+******************************************************
+*		 Parts not Complete                  *
+******************************************************
+
+N/A
+
+******************************************************
+*			Bugs			     *
+******************************************************
+
+When background processes output data, the data is
+written to the current prompt of the command line
+input.
+
+******************************************************
+*		       Files                         *
+******************************************************
+
+README
+Makefile
+shell.c 
+shell_programs.c
+shell_programs.h
+
+******************************************************
+*		      To Run                         *
+******************************************************
+
+make
+./cs350sh
+
+******************************************************
+*		   Sample Output                     *
+******************************************************
+
+cs350sh>ls
+cs350sh        foreground.o  shell.c           shell_programs.h  sleep2.o  sleep.o  testFG
+foreground.c   Makefile      shell.o           shell_programs.o  sleep.c   test
+foreground.c~  README        shell_programs.c  sleep2.c          sleep.c~  testBG
+cs350sh>./test Multiple Arguments
+Command arg 1: Multiple
+Command arg 2:Arguments
+cs350sh>./testBG &
+cs350sh>ls
+cs350sh        foreground.o  shell.c           shell_programs.h  sleep2.o  sleep.o  testFG
+foreground.c   Makefile      shell.o           shell_programs.o  sleep.c   test
+foreground.c~  README        shell_programs.c  sleep2.c          sleep.c~  testBG
+cs350sh>Run in background
+
+cs350sh>./testBG &
+cs350sh>ls &
+cs350sh>cs350sh        foreground.o  shell.c           shell_programs.h  sleep2.o  sleep.o  testFG
+foreground.c   Makefile      shell.o           shell_programs.o  sleep.c   test
+foreground.c~  README        shell_programs.c  sleep2.c          sleep.c~  testBG
+Run in background
+
+cs350sh>./testBG &
+cs350sh>listjobs
+List of background processes:
+Command 1 with PID 26106 Status:FINISHED
+Command 2 with PID 26109 Status:FINISHED
+Command 3 with PID 26110 Status:FINISHED
+Command 4 with PID 26117 Status:FINISHED
+Command 5 with PID 26118 Status:FINISHED
+Command 6 with PID 26120 Status:RUNNING
+cs350sh>Run in background
+
+cs350sh>listjobs
+List of background processes:
+Command 1 with PID 26120 Status:FINISHED
+cs350sh>./testFG &
+cs350sh>PID: 26136
+
+cs350sh>fg 26136
+Now bring me to foreground
+cs350sh>^C
+
+*****************************************************
+*		    Bibliography		    *
+*****************************************************
+
+String Parsing code received from professor's parser.c
+SIGCHLD handler received from professor's sidchld.c
+
+*****************************************************
+*		   Miscellaneous                    *
+*****************************************************
+
+Type Ctrl+c to exit shell
+Pressing Enter on command line brings up new input prompt
+All exec and fork call errors handled
+No memory Leaks

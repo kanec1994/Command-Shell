@@ -1,0 +1,10 @@
+#ifndef SHELL_PROGRAMS_H
+#define SHELL_PROGRAMS_H
+
+void addJob(pid_t pid);
+void printJobs();
+int findJob(int pid);
+void completeJob(int pid);
+void functCall(char* args[],int length);
+
+#endif
