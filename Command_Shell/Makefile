@@ -6,5 +6,5 @@ shell.o: shell.c shell_programs.h
 shell_programs.o: shell_programs.c
 	gcc -o shell_programs.o -c shell_programs.c
 clean:
-	rm -f cs350sh *.o *~
+	rm -f shell *.o *~
 
