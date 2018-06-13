@@ -1,6 +1,6 @@
-all: cs350sh
-cs350sh: shell.o shell_programs.o
-	gcc -o cs350sh shell.o shell_programs.o
+all: shell
+shell: shell.o shell_programs.o
+	gcc -o shell shell.o shell_programs.o
 shell.o: shell.c shell_programs.h
 	gcc -o shell.o -c shell.c
 shell_programs.o: shell_programs.c
